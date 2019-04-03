@@ -12,39 +12,35 @@ export default class LoginScreen extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            email:'',
-            password:'',
+            email:'imardinig@gmail.com',
+            password:'ivandavid98',
             authenticating:false,
             user: null,
             error: '',
           }
     }
   onPressSignIn (){
+      console.log('running')
     this.setState( 
-      {authenticating:true,})
+      {authenticating:true})
       const { email, password } = this.state;
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then(user => {this.setState({
-        authenticating: true,
+        authenticating: false,
         user,
         error: '',
-      });
-      this.props.navigation.navigate('Home')})
-      .catch(() => this.setState({
+      }); this.props.navigation.navigate('Home')})
+      .catch(() => {this.setState({
         // Login was not successful
         authenticating: false,
         user: null,
         error: 'Authentication Failure',
-      }))
+      });Alert.alert('Las credenciales no coinciden')})
   }
   onPress (){
       this.onPressSignIn()
-      console.log(firebase)
       if(!this.state.user && this.state.email == '' && this.state.password == ''){
         Alert.alert('Ingrese las credenciales')
-      }else{
-          console.log(this.state)
-          Alert.alert('Las credenciales no coinciden')
       }
 }
   onPressLogOut(){

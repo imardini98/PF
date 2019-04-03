@@ -29,8 +29,8 @@ export default class App extends React.Component {
   }
 }
 const AppNavigator = createStackNavigator({
-  Home: HomeScreen,
   Login: LoginScreen,
+  Home: HomeScreen,
   
 });
 
