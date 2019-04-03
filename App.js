@@ -1,5 +1,5 @@
 import React from 'react';
-import {ActivityIndicator, StyleSheet, Text, View, Image, Dimensions  } from 'react-native';
+import {ActivityIndicator, StyleSheet, Text, View, Image, Dimensions,Alert  } from 'react-native';
 import firebase from '@firebase/app';
 require('firebase/auth')
 import { Input } from './components/Input';
@@ -14,7 +14,6 @@ export default class App extends React.Component {
     password:'',
     authenticating:false,
     user: null,
-    error: '',
   }
   componentWillMount(){
     const firebaseConfig = {
@@ -23,7 +22,7 @@ export default class App extends React.Component {
     }
     firebase.initializeApp(firebaseConfig)
   }
-  onPressSignIn (){
+  authenticateFunction (){
     this.setState( 
       {authenticating:true,})
       const { email, password } = this.state;
@@ -32,14 +31,25 @@ export default class App extends React.Component {
       .then(user => this.setState({
         authenticating: false,
         user,
-        error: '',
       }))
       .catch(() => this.setState({
         // Login was not successful
         authenticating: false,
         user: null,
-        error: 'Authentication Failure',
       }))
+  }
+  alertFunction (){
+    if(this.state.user == null && !this.state.email==''  && !this.state.password==''){
+      console.log(this.state)
+      Alert.alert('Las credenciales no coinciden')
+    }else{
+      console.log(this.state)
+      Alert.alert('Ingrese las credenciales')
+    }
+  }
+  onPressSignIn (){
+    this.authenticateFunction()
+    this.alertFunction()
   }
   onPressLogOut(){
     firebase.auth().signOut()
@@ -66,7 +76,6 @@ export default class App extends React.Component {
       return (
         <View style={styles.form}>
           <Text>Logged In, Welcome</Text>
-          <Button onPress={()=>console.log(this.state.user)}>Verify User</Button>
           <Button onPress={() => this.onPressLogOut()}>Log Out</Button>
         </View>
       )
@@ -91,8 +100,6 @@ export default class App extends React.Component {
       secureTextEntry = {true}
       />
       <Button onPress={()=>this.onPressSignIn()}>Iniciar sesión</Button>
-      <Button onPress={()=>console.log(this.state.user)}>Verify User</Button>
-      <Text>{this.state.error}</Text>
       </View>
     )
   }
