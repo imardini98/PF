@@ -6,7 +6,24 @@ import firebase from '@firebase/app';
 require('firebase/auth')
 require('firebase/database')
 import {createStackNavigator, createAppContainer} from 'react-navigation'
+const AppNavigator = createStackNavigator({
+  Login: {
+    screen: LoginScreen,
+    navigationOptions: {
+     header: null
+    }
+   },
+  Home: {
+    screen: HomeScreen,
+    navigationOptions: {
+     header: null
+    }
+   },
+},{
+  initialRouteName:'Login'
+});
 
+const AppContainer = createAppContainer(AppNavigator);
 export default class App extends React.Component {
   componentWillMount(){
     const firebaseConfig = {
@@ -15,7 +32,8 @@ export default class App extends React.Component {
       databaseURL: "https://tconbelt.firebaseio.com",
       projectId: "tconbelt",
       storageBucket: "tconbelt.appspot.com",
-      messagingSenderId: "99500468615"
+      messagingSenderId: "99500468615",
+      persistence:true
     }
     firebase.initializeApp(firebaseConfig)
   
@@ -23,18 +41,12 @@ export default class App extends React.Component {
   render() {
     return (
       <View style = {styles.container}>
-      <AppContainer/>
+       <AppContainer/>
       </View>
     );
   }
 }
-const AppNavigator = createStackNavigator({
-  Login: LoginScreen,
-  Home: HomeScreen,
-  
-});
 
-const AppContainer = createAppContainer(AppNavigator);
 const styles = StyleSheet.create({
   container: {
     backgroundColor:'#fff',

@@ -5,6 +5,7 @@ require('firebase/auth')
 import { Input } from 'AwesomeProject/components/Input';
 import {Button} from 'AwesomeProject/components/Button';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
+import { NavigationActions } from 'react-navigation';
 
 const logo = require('AwesomeProject/assets/logo-tconbelt.png')
 
@@ -20,25 +21,30 @@ export default class LoginScreen extends React.Component {
           }
     }
   onPressSignIn (){
-      console.log('running')
+    console.log('running')
     this.setState( 
       {authenticating:true})
       const { email, password } = this.state;
     firebase.auth().signInWithEmailAndPassword(email, password)
-      .then(user => {this.setState({
+      .then(
+      user => {this.setState({
         authenticating: false,
         user,
-        error: '',
-      }); this.props.navigation.navigate('Home')})
-      .catch(() => {this.setState({
+        error: 'logueo' });
+        this.props.navigation.dispatch(
+          NavigationActions.navigate({ routeName: "Home" })
+         );
+      })
+      .catch((error) => {console.log('cratch');this.setState({
         // Login was not successful
         authenticating: false,
         user: null,
-        error: 'Authentication Failure',
-      });Alert.alert('Las credenciales no coinciden')})
+        error: error,
+      });Alert.alert(''+error)})
   }
   onPress (){
-      this.onPressSignIn()
+    this.onPressSignIn()
+    console.log(this.state)
       if(!this.state.user && this.state.email == '' && this.state.password == ''){
         Alert.alert('Ingrese las credenciales')
       }
@@ -55,6 +61,9 @@ export default class LoginScreen extends React.Component {
       }, error => {
         console.error('Sign Out Error', error);
       });
+  }
+  componentWillMount(){
+    this.setState({user:null})
   }
   render() {
     return (
@@ -76,7 +85,7 @@ export default class LoginScreen extends React.Component {
                 value = {this.state.password}
                 secureTextEntry = {true}
                 />
-                <Button onPress={()=>this.onPress()}>Iniciar sesión</Button>
+                <Button onPress={() => this.onPress()}>Iniciar sesión</Button>
             </View>
         
     );

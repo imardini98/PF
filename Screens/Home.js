@@ -3,7 +3,9 @@ import {Text,View,StyleSheet,Image} from 'react-native'
 import firebase from '@firebase/app';
 require('firebase/database')
 import { Slider , Header} from 'react-native-elements';
+import {Button} from 'AwesomeProject/components/Button';
 const logo = require('AwesomeProject/assets/logo-tconbelt.png')
+import { NavigationActions } from 'react-navigation';
 export default class HomeScreen extends React.Component {
     constructor(props){
         super(props)
@@ -77,6 +79,9 @@ export default class HomeScreen extends React.Component {
             <View style={{alignItems:'center'}}>
                 <Image source={logo} style={styles.logo}/>
             </View>
+            <Button onPress={()=> this.props.navigation.dispatch(
+          NavigationActions.navigate({routeName:'Login'})
+         )}>Cerrar Sesión</Button>
             <Slider
               value={this.state.value}
               step={9}
