@@ -1,39 +1,35 @@
 import React from 'react';
-import {ActivityIndicator, StyleSheet, Text, View, Image, Dimensions  } from 'react-native';
+import {ActivityIndicator, StyleSheet, Text, View, Image, Dimensions, Alert } from 'react-native';
 import firebase from '@firebase/app';
 require('firebase/auth')
 import { Input } from 'AwesomeProject/components/Input';
 import {Button} from 'AwesomeProject/components/Button';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 const logo = require('AwesomeProject/assets/logo-tconbelt.png')
 
-
 export default class LoginScreen extends React.Component {
-  state = {
-    email:'',
-    password:'',
-    authenticating:false,
-    user: null,
-    error: '',
-  }
-  componentWillMount(){
-    const firebaseConfig = {
-      apiKey: "AIzaSyCiN9p45gA0IwozM7lKSEKbSuILUNYmm-o",
-      authDomain: "tconbelt.firebaseapp.com",
+    constructor(props){
+        super(props);
+        this.state = {
+            email:'',
+            password:'',
+            authenticating:false,
+            user: null,
+            error: '',
+          }
     }
-    firebase.initializeApp(firebaseConfig)
-  }
   onPressSignIn (){
     this.setState( 
       {authenticating:true,})
       const { email, password } = this.state;
-
     firebase.auth().signInWithEmailAndPassword(email, password)
-      .then(user => this.setState({
-        authenticating: false,
+      .then(user => {this.setState({
+        authenticating: true,
         user,
         error: '',
-      }),() => this.props.navigation.navigate('Home'))
+      });
+      this.props.navigation.navigate('Home')})
       .catch(() => this.setState({
         // Login was not successful
         authenticating: false,
@@ -41,6 +37,16 @@ export default class LoginScreen extends React.Component {
         error: 'Authentication Failure',
       }))
   }
+  onPress (){
+      this.onPressSignIn()
+      console.log(firebase)
+      if(!this.state.user && this.state.email == '' && this.state.password == ''){
+        Alert.alert('Ingrese las credenciales')
+      }else{
+          console.log(this.state)
+          Alert.alert('Las credenciales no coinciden')
+      }
+}
   onPressLogOut(){
     firebase.auth().signOut()
       .then(() => {
@@ -74,8 +80,7 @@ export default class LoginScreen extends React.Component {
                 value = {this.state.password}
                 secureTextEntry = {true}
                 />
-                <Button onPress={()=>this.onPressSignIn()}>Iniciar sesión</Button>
-                <Text>{this.state.error}</Text>
+                <Button onPress={()=>this.onPress()}>Iniciar sesión</Button>
             </View>
         
     );
