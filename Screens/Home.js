@@ -6,71 +6,123 @@ import { Slider , Header} from 'react-native-elements';
 import {Button} from 'AwesomeProject/components/Button';
 const logo = require('AwesomeProject/assets/logo-tconbelt.png')
 import { NavigationActions } from 'react-navigation';
+let value_slider;
 export default class HomeScreen extends React.Component {
+    componentDidMount = () => {
+        const that =this
+            firebase.database().ref('commands').on('value', function(snapshot) {
+               that.setState({update :snapshot.val()})
+               console.log(that.state.update)
+               value_slider =that.state.update.DIN3.toString()+that.state.update.DIN2.toString()+that.state.update.DIN1.toString()
+               console.log(value_slider)
+               switch(value_slider){
+                   case "000":
+                   that.setState({value:0})
+                   break;
+                   case "001":
+                   that.setState({value:9})
+                   break;
+                   case "010":
+                   that.setState({value:18})
+                   break;
+                   case "011":
+                   that.setState({value:27})
+                   break;
+                   case "100":
+                   that.setState({value:36})
+                   break;
+                   case "101":
+                   that.setState({value:45})
+                   break;
+                   case "110":
+                   that.setState({value:54})
+                   break;
+                   case "111":
+                   that.setState({value:60})
+                   break;
+               }
+               
+              });
+              firebase.database().ref('data').on('value', function(snapshot){
+                console.log(snapshot.val())
+              })
+    }
+    componentWillUnmount (){
+        firebase.database().ref('commands').update({
+            DIN1:0,
+            DIN2:0,
+            DIN3:0,
+        })
+    }
+    
     constructor(props){
         super(props)
-        this.state={value:0}
+        this.state={value:0, update:{
+            DIN1:0,
+            DIN2:0,
+            DIN3:0,
+        }}
     }
-    onSlidingComplete (value){
+    onSlidingComplete = async (value)=>{
         switch(value){
             case 0:
-            this.update = {
+            await this.setState({update : {
                 DIN1:0,
                 DIN2:0,
                 DIN3:0,
-            }
+            }})
             break;
             case 9:
-            this.update = {
+            await this.setState({update : {
                 DIN1:1,
                 DIN2:0,
                 DIN3:0,
-            }
+            }})
             break;
             case 18:
-            this.update = {
+            await this.setState({update : {
                 DIN1:0,
                 DIN2:1,
                 DIN3:0,
-            }
+            }})
             break;
             case 27:
-            this.update = {
+            await this.setState({update : {
                 DIN1:1,
                 DIN2:1,
                 DIN3:0,
-            }
+            }})
             break;
             case 36:
-            this.update = {
+            await this.setState({update : {
                 DIN1:0,
                 DIN2:0,
                 DIN3:1,
-            }
+            }})
             break;
             case 45:
-            this.update = {
+            await this.setState({update : {
                 DIN1:1,
                 DIN2:0,
                 DIN3:1,
-            }
+            }})
             break;
             case 54:
-            this.update = {
+            await this.setState({update : {
                 DIN1:0,
                 DIN2:1,
                 DIN3:1,
-            }
+            }})
             break;
             case 60:
-            this.update = {
+            await this.setState({update : {
                 DIN1:1,
                 DIN2:1,
                 DIN3:1,
-            }
+            }})
             break;
         }
-        firebase.database().ref('commands').update(this.update)
+        await firebase.database().ref('commands').update(this.state.update)
     }
     render(){
         return (

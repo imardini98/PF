@@ -14,7 +14,7 @@ export default class LoginScreen extends React.Component {
         super(props);
         this.state = {
             email:'imardinig@gmail.com',
-            password:'ivandavid98',
+            password:'tconbelt-ivan2019',
             authenticating:false,
             user: null,
             error: '',

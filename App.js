@@ -26,6 +26,7 @@ const AppNavigator = createStackNavigator({
 const AppContainer = createAppContainer(AppNavigator);
 export default class App extends React.Component {
   componentWillMount(){
+    console.disableYellowBox = true;
     const firebaseConfig = {
       apiKey: "AIzaSyCiN9p45gA0IwozM7lKSEKbSuILUNYmm-o",
       authDomain: "tconbelt.firebaseapp.com",
