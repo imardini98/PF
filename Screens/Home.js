@@ -3,16 +3,41 @@ import {Text,View,StyleSheet,Image} from 'react-native'
 import firebase from '@firebase/app';
 require('firebase/database')
 import { Slider , Header} from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {Button} from 'AwesomeProject/components/Button';
 const logo = require('AwesomeProject/assets/logo-tconbelt.png')
 import { NavigationActions } from 'react-navigation';
 let value_slider;
 export default class HomeScreen extends React.Component {
+    static navigationOptions =({navigation})=> {
+        return {
+          title: 'CONTROL',
+          headerStyle : {
+            backgroundColor:'#083b66',
+            color: 'white'
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            color: '#fff'
+          },
+          headerRight: (
+            <Icon
+              onPress={
+                ()=> navigation.dispatch(
+                    NavigationActions.navigate({routeName:'Login'})
+                   )
+              }
+              name="sign-out"
+              color="#fff"
+              size={30}
+            />
+          )
+        } 
+      };
     componentDidMount = () => {
         const that =this
             firebase.database().ref('commands').on('value', function(snapshot) {
                that.setState({update :snapshot.val()})
-               console.log(that.state.update)
                value_slider =that.state.update.DIN3.toString()+that.state.update.DIN2.toString()+that.state.update.DIN1.toString()
                console.log(value_slider)
                switch(value_slider){
@@ -43,9 +68,6 @@ export default class HomeScreen extends React.Component {
                }
                
               });
-              firebase.database().ref('data').on('value', function(snapshot){
-                console.log(snapshot.val())
-              })
     }
     componentWillUnmount (){
         firebase.database().ref('commands').update({
@@ -128,21 +150,18 @@ export default class HomeScreen extends React.Component {
         return (
             
             <View style={{ flex: 1, alignItems: 'stretch', justifyContent: 'center', height:500 }}>
-            <View style={{alignItems:'center'}}>
-                <Image source={logo} style={styles.logo}/>
-            </View>
-            <Button onPress={()=> this.props.navigation.dispatch(
-          NavigationActions.navigate({routeName:'Login'})
-         )}>Cerrar Sesión</Button>
-            <Slider
-              value={this.state.value}
-              step={9}
-              maximumValue={60}
-              orientation='horizontal'
-              onValueChange={value => this.setState({ value })}
-              onSlidingComplete={value =>this.onSlidingComplete(value)}
-            />
-            <Text>Frequency: {this.state.value} Hz</Text>
+              <View style={{alignItems:'center'}}>
+                  <Image source={logo} style={styles.logo}/>
+              </View>
+              <Slider
+                value={this.state.value}
+                step={9}
+                maximumValue={60}
+                orientation='horizontal'
+                onValueChange={value => this.setState({ value })}
+                onSlidingComplete={value =>this.onSlidingComplete(value)}
+              />
+              <Text>Frequency: {this.state.value} Hz</Text>
           </View>
 
         )

@@ -32,7 +32,7 @@ export default class LoginScreen extends React.Component {
         user,
         error: 'logueo' });
         this.props.navigation.dispatch(
-          NavigationActions.navigate({ routeName: "Home" })
+          NavigationActions.navigate({ routeName: "AppNavigator" })
          );
       })
       .catch((error) => {console.log('cratch');this.setState({

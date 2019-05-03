@@ -5,25 +5,8 @@ import  HomeScreen  from './Screens/Home';
 import firebase from '@firebase/app';
 require('firebase/auth')
 require('firebase/database')
-import {createStackNavigator, createAppContainer} from 'react-navigation'
-const AppNavigator = createStackNavigator({
-  Login: {
-    screen: LoginScreen,
-    navigationOptions: {
-     header: null
-    }
-   },
-  Home: {
-    screen: HomeScreen,
-    navigationOptions: {
-     header: null
-    }
-   },
-},{
-  initialRouteName:'Login'
-});
+import AppContainer from './Navigator';
 
-const AppContainer = createAppContainer(AppNavigator);
 export default class App extends React.Component {
   componentWillMount(){
     console.disableYellowBox = true;
