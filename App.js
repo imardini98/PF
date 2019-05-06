@@ -1,7 +1,5 @@
 import React from 'react';
 import {ActivityIndicator, StyleSheet, Text, View, Image, Dimensions,Alert  } from 'react-native';
-import  LoginScreen  from './Screens/Login';
-import  HomeScreen  from './Screens/Home';
 import firebase from '@firebase/app';
 require('firebase/auth')
 require('firebase/database')

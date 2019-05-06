@@ -1,13 +1,13 @@
 import React from 'react'
-import {Text,View,StyleSheet,Image} from 'react-native'
+import {View,StyleSheet,Image,Dimensions} from 'react-native'
 import firebase from '@firebase/app';
 require('firebase/database')
-import { Slider , Header} from 'react-native-elements';
+import { Slider ,Text} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Button} from 'AwesomeProject/components/Button';
 const logo = require('AwesomeProject/assets/logo-tconbelt.png')
 import { NavigationActions } from 'react-navigation';
 let value_slider;
+const {width,height} = Dimensions.get('window')
 export default class HomeScreen extends React.Component {
     static navigationOptions =({navigation})=> {
         return {
@@ -150,16 +150,23 @@ export default class HomeScreen extends React.Component {
         return (
             
             <View style={{ flex: 1, alignItems: 'stretch', justifyContent: 'center', height:500 }}>
-              <View style={{alignItems:'center'}}>
-                  <Image source={logo} style={styles.logo}/>
-              </View>
+              <Text style={{justifyContent:'center',alignItems:'center'}} h3>Belt Conveyor's RPM</Text>
               <Slider
+                style={{marginLeft:width*0.4 ,height:height*0.7 }}
                 value={this.state.value}
                 step={9}
+                invert orientation={'vertical'}
+                trackStyle={{width:20,borderWidth:2,borderRadius:2}}
                 maximumValue={60}
-                orientation='horizontal'
+                thumbImage={logo}
+                animationType={'spring'}
+                animateTransitions={true}
                 onValueChange={value => this.setState({ value })}
                 onSlidingComplete={value =>this.onSlidingComplete(value)}
+                thumbStyle={{backgroundColor: '#33cccc',borderWidth: 2,width:60,height:60,borderRadius:60}} 
+                thumbTouchSize={{width: 100, height: 100}} 
+                minimumTrackTintColor={'#2eb8b8'} 
+                maximumTrackTintColor={'#0f3d3d'}
               />
               <Text>Frequency: {this.state.value} Hz</Text>
           </View>

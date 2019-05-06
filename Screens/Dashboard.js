@@ -1,5 +1,5 @@
 import React from 'react'
-import {View, Text} from 'react-native'
+import {View, Text, Dimensions} from 'react-native'
 import firebase from '@firebase/app';
 import Icon from 'react-native-vector-icons/FontAwesome'
 require('firebase/database')
@@ -62,7 +62,7 @@ export default class DashboardScreen extends React.Component {
         let vca = []
         let date = []
         let sensor = []
-        firebase.database().ref('data').once('value',async function(snapshot){
+        firebase.database().ref('data').limitToLast(5).once('value',async function(snapshot){
             let data = await snapshot.val()
             data = await Object.values(data)
             data.forEach(element => {
@@ -84,7 +84,7 @@ export default class DashboardScreen extends React.Component {
             await that.setState({date:date})
             await that.setState({sensor:sensor})
         })
-        firebase.database().ref('data').limitToLast(1).on('value', async function(snapshot){
+        firebase.database().ref('data').limitToLast(5).on('value', async function(snapshot){
             let data_retrieved = await snapshot.val()
             data_retrieved = await Object.values(data_retrieved)
             await that.setState({c1:that.state.c1.push(data_retrieved[0].C1)})
@@ -108,6 +108,15 @@ export default class DashboardScreen extends React.Component {
     data={{
       labels: ['January', 'February', 'March', 'April', 'May', 'June'],
       datasets: [{
+        data: [
+          Math.random() * 100,
+          Math.random() * 100,
+          Math.random() * 100,
+          Math.random() * 100,
+          Math.random() * 100,
+          Math.random() * 100
+        ],
+      },{
         data: [
           Math.random() * 100,
           Math.random() * 100,

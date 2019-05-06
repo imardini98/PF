@@ -9,10 +9,12 @@
   "dependencies": {
     "firebase": "^5.9.2",
     "react": "16.6.0-alpha.8af6728",
+    "react-circle-slider": "^1.6.2",
     "react-native": "0.57.3",
     "react-native-chart-kit": "^2.6.0",
     "react-native-elements": "^1.1.0",
     "react-native-gesture-handler": "^1.1.0",
+    "react-native-svg": "^9.4.0",
     "react-native-vector-icons": "^6.4.2",
     "react-navigation": "^3.6.1",
     "redux": "^4.0.1"
