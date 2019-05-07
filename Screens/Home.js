@@ -2,7 +2,7 @@ import React from 'react'
 import {View,StyleSheet,Image,Dimensions} from 'react-native'
 import firebase from '@firebase/app';
 require('firebase/database')
-import { Slider ,Text} from 'react-native-elements';
+import { Slider ,Text,Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 const logo = require('AwesomeProject/assets/logo-tconbelt.png')
 import { NavigationActions } from 'react-navigation';
@@ -67,7 +67,11 @@ export default class HomeScreen extends React.Component {
                    break;
                }
                
-              });
+            });
+            firebase.database().ref('PISTON').on('value', function(snapshot){
+              let data = snapshot.val()
+              that.setState({pressedPiston:data})
+            })
     }
     componentWillUnmount (){
         firebase.database().ref('commands').update({
@@ -83,6 +87,7 @@ export default class HomeScreen extends React.Component {
             DIN1:0,
             DIN2:0,
             DIN3:0,
+            pressedPiston:false
         }}
     }
     onSlidingComplete = async (value)=>{
@@ -169,6 +174,15 @@ export default class HomeScreen extends React.Component {
                 maximumTrackTintColor={'#0f3d3d'}
               />
               <Text>Frequency: {this.state.value} Hz</Text>
+              <Button
+              title={this.state.pressedPiston ?'Piston down':'Piston up'}
+              onPress={async ()=>{
+                await this.setState({pressedPiston:!this.state.pressedPiston})
+                await firebase.database().ref('/').update({PISTON:this.state.pressedPiston ? 1:0})
+
+              }
+              }
+              />
           </View>
 
         )
