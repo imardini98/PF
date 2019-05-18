@@ -62,13 +62,13 @@ export default class DashboardScreen extends React.Component {
         let vca = []
         let date = []
         let sensor = []
-        firebase.database().ref('data').limitToLast(1).on('value',async function(snapshot){
+        /* firebase.database().ref('data').limitToLast(1).on('value',async function(snapshot){
           if(c1.length == 5){
             c1 = [c1[0],c1[1],c1[2],c1[3]]
             c2 = [c2[0],c2[1],c2[2],c2[3]]
             c3 = [c3[0],c3[1],c3[2],c3[3]]
             vab = [vab[0],vab[1],vab[2],vab[3]]
-            vbc = [vbc[0],vbc[1],vbc[2],vbc[3]]
+            vbc = [vbc[0],vbc[1],vbc[2],vbc[3]] 
             vca = [vca[0],vca[1],vca[2],vca[3]]
             date = [date[0],date[1],date[2],date[3]]
             sensor = [sensor[0],sensor[1],sensor[2],sensor[3]]
@@ -94,7 +94,7 @@ export default class DashboardScreen extends React.Component {
             await that.setState({vca : vca})
             await that.setState({date:date})
             await that.setState({sensor:sensor})
-        })
+        }) */
     }
     render(){
         return(

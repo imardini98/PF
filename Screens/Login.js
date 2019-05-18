@@ -12,8 +12,8 @@ export default class LoginScreen extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            email:null,
-            password:null,
+            email:'',
+            password:'',
             authenticating:false,
             user: null,
             error: '',
@@ -78,8 +78,8 @@ async RememberMe () {
   await AsyncStorage.setItem('password',this.state.password)
   }
   else{
-  await AsyncStorage.getItem('user') !== null ? await AsyncStorage.removeItem('user'):null
-  await AsyncStorage.getItem('password') !== null ?await AsyncStorage.removeItem('password'):null
+  await AsyncStorage.getItem('user') !== '' ? await AsyncStorage.removeItem('user'):''
+  await AsyncStorage.getItem('password') !== '' ? await AsyncStorage.removeItem('password'):''
   }
   console.log(await AsyncStorage.getItem('user'))
   console.log(await AsyncStorage.getItem('password'))
@@ -112,54 +112,53 @@ makePhoneCall (){
   render() {
     return (
             <View style={styles.form}>
-                <View style={{alignItems:'center', justifyContent:'center'}}>
+              <View style={{alignItems:'center', justifyContent:'center'}}>
                 <Image source={logo} style={styles.logo}/>
-                </View>
-            
-                <Input
-                inputStyle={{fontSize:17,
+              </View>
+              <Input
+                  inputStyle={{fontSize:17,
                   marginTop:20}}
-                placeholder = '   Ingresa tu email...'
-                leftIcon={<Icon
+                  placeholder = '   Ingresa tu email...'
+                  leftIcon={<Icon
                   name='user'
                   size={24}
                   color='#33cccc'
-                />}
-                onChangeText = {email => this.setState({email})}
-                value = {this.state.email}
+                  />}
+                  onChangeText = {email => this.setState({email})}
+                  value = {this.state.email}
                 />
                 <Input
-                inputStyle={{fontSize:17,
+                  inputStyle={{fontSize:17,
                   marginTop:12}}
-                placeholder = '   Ingresa tu contraseña...'
-                leftIcon={{ type: 'font-awesome', name: 'lock', color:'#33cccc' }}
-                onChangeText = {password => this.setState({password})}
-                value = {this.state.password}
-                secureTextEntry = {true}
+                  placeholder = '   Ingresa tu contraseña...'
+                  leftIcon={{ type: 'font-awesome', name: 'lock', color:'#33cccc' }}
+                  onChangeText = {password => this.setState({password})}
+                  value = {this.state.password}
+                  secureTextEntry = {true}
                 />
                 <View style={{flex:0,flexDirection:'row'}}>
-              <CheckBox
-                title='Recordarme'
-                containerStyle={{backgroundColor:'white',borderColor:'white'}}
-                onPress={() => {this.RememberMe()}}
-                checked={this.state.checked}
-                checkedColor={'#33cccc'}
-                textStyle={{color:'black'}}
-                containerStyle={{flex:1}}
+                  <CheckBox
+                    title='Recordarme'
+                    containerStyle={{backgroundColor:'white',borderColor:'white'}}
+                    onPress={() => {this.RememberMe()}}
+                    checked={this.state.checked}
+                    checkedColor={'#33cccc'}
+                    textStyle={{color:'black'}}
+                    containerStyle={{flex:1}}
+                  />
+                  <View style={{justifyContent:'center'}}>
+                    <Text  
+                      style={{color:'#33cccc'}}
+                      onPress={()=> this.youNeddHelp()}
+                    >¿Necesitas ayuda?</Text>
+                  </View>
+                </View>
+              <Button 
+              title={'Iniciar Sesión'}
+              buttonStyle={{backgroundColor:'#33cccc',marginTop:20,height:50}}
+              loading={this.state.pressed}
+              onPress={() => this.onPress()}
               />
-              <View style={{justifyContent:'center'}}>
-                <Text  
-                  style={{color:'#33cccc'}}
-                  onPress={()=> this.youNeddHelp()}
-                >¿Necesitas ayuda?</Text>
-              </View>
-            </View>
-                <Button 
-                title={'Iniciar Sesión'}
-                buttonStyle={{backgroundColor:'#33cccc',marginTop:20,height:50}}
-                loading={this.state.pressed}
-                onPress={() => this.onPress()}
-                />
             </View>
         
     );

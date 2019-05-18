@@ -27,9 +27,9 @@ const getTabBarIcon = (navigation, focused, tintColor) => {
       Home: {
         screen: HomeScreen,
        },
-       Dashboard : {
+       /* Dashboard : {
          screen: DashboardScreen
-       },
+       }, */
        Options : {
          screen: OptionsScreen  
        }
