@@ -128,14 +128,8 @@ export default class HomeScreen extends React.Component {
                 <Text style={styles.text}>V-CA: </Text><Text style={styles.text}>{this.state.vca+' V'}</Text>
               </View> 
                <View style={{flex:1,flexDirection:'row'}}>
-                <Text style={styles.text}>P-A: </Text><Text style={styles.text}>{this.state.pa+' W'}</Text>
+                <Text style={styles.text}>P-Total: </Text><Text style={styles.text}>{this.state.pa+' W'}</Text>
               </View>
-              <View style={{flex:1,flexDirection:'row'}}>
-                <Text style={styles.text}>P-B: </Text><Text style={styles.text}>{this.state.pb+' W'}</Text>
-              </View>
-              <View style={{flex:1,flexDirection:'row'}}>
-                <Text style={styles.text}>P-C: </Text><Text style={styles.text}>{this.state.pc+' W'}</Text>
-              </View> 
               <View style={{flex:1,flexDirection:'row'}}>
                 <Text style={styles.text}>Pistón: </Text><Text style={styles.text}>{this.state.piston ? 'Activado':'Desactivado'}</Text>
               </View>
